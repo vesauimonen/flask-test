@@ -1,7 +1,6 @@
 from .base import (
     ApplicationSetup,
     JsonResponseMixin,
-    requires_login,
     TestCase,
     validates_form,
 )
@@ -13,7 +12,6 @@ __all__ = (
     ApplicationSetup,
     DatabaseSetup,
     JsonResponseMixin,
-    requires_login,
     TestCase,
     validates_form,
     ViewSetup,

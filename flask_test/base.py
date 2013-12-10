@@ -1,7 +1,6 @@
 from contextlib import contextmanager
 
 from flask import json, url_for
-from flask.ext.login import user_unauthorized
 from flexmock import flexmock
 
 from werkzeug import cached_property
@@ -164,9 +163,6 @@ class TestCase(object):
         for client in (self.client, self.xhr_client):
             with client.session_transaction() as s:
                 s['user_id'] = None
-
-    def requires_login(self):
-        return requires_login()
 
     def get_page(self):
         return self.client.get(url_for(self.view))
@@ -332,21 +328,6 @@ def _make_test_response(response_class):
         pass
 
     return TestResponse
-
-
-@contextmanager
-def requires_login():
-    user_unauthorized_signals = []
-
-    def _on(sender):
-        user_unauthorized_signals.append(sender)
-
-    user_unauthorized.connect(_on)
-    try:
-        yield
-    finally:
-        user_unauthorized.disconnect(_on)
-        assert user_unauthorized_signals, "The view does not require login."
 
 
 @contextmanager
